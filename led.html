@@ -1,0 +1,89 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+   
+
+<script>
+
+var gStatus = true;
+
+
+function sendStatus()
+{
+    var Request =""
+   if (gStatus == true)
+   {
+       Request ='{"status": false}';
+       gStatus = false;
+       document.getElementById("ButtonID").style.background= "green";
+   }else
+   {
+        Request ='{"status": true}';
+        gStatus = true;
+        document.getElementById("ButtonID").style.background= "red";
+   }
+    
+    $.post("/api/led", Request, function(data, status){
+          //alert("Status"+ status);
+    });
+    
+}
+    
+document.body.onload = addButton;   
+function addButton () 
+{
+  //Read status of led in DB
+  $.getJSON("/api/led", function(jd){
+        console.log(jd);
+        var jsonString =JSON.stringify(jd);
+        console.log(jsonString)
+        //var text = '{ "status": true }';
+        //obj = JSON.parse(text);
+        // console.log(obj.status);
+        obj = JSON.parse(jsonString);
+        console.log(obj.status);
+      
+        if(obj.status == true)
+        {
+            gStatus = true;
+        }else
+        {
+            gStatus = false; 
+        }
+       
+         
+	   var btn = document.createElement("BUTTON");
+	   document.body.appendChild(btn);  
+	    
+	   btn.setAttribute("id", "ButtonID");
+	   // alert(gStatus);
+	    if(gStatus == true)
+	    {  
+            btn.setAttribute("style", "background-color:red; height: 50px;  width: 100px; ");
+	         
+	    }else
+	    {   
+	         btn.setAttribute("style", "background-color:green; height: 50px;  width: 100px; ");
+	    }
+	    
+	   //Set event
+	   btn.addEventListener( 'click', function(){
+	        sendStatus();
+	   });   
+
+
+
+    });
+   
+   
+   
+    
+   
+    
+}
+    
+</script>
+</body>
+</html>

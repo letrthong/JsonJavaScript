@@ -1,0 +1,34 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+    INPUT<br>
+   <textarea id="txt_input_data" name="input" cols="" rows=""  style="width: 300px; height: 150px;" ></textarea> <br><br>
+   <button id="button_run_decode" >  Conver Data To Base64</button> 
+   <button id="button_run_encode">  Conver  Base64 To Data </button>  <br><br>
+    OUTPUT <br>
+  <textarea id="txt_output_data" name="output" cols="" rows=""  style="width: 300px; height: 150px;" ></textarea>
+
+<script>
+
+$(document).ready( function() {
+ 	//Post method
+	$("#button_run_decode").on("click", function() {
+         $.post("/datatobase64", $("#txt_input_data").val(), function(data, status){
+		     $("#txt_output_data").val(data)
+	     });
+    });
+    
+    
+    $("#button_run_encode").on("click", function() {
+         $.post("/base64todata", $("#txt_input_data").val(), function(data, status){
+		     $("#txt_output_data").val(data)
+	     });
+    });
+
+});
+
+</script>
+</body>
+</html>
